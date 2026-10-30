@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(IndustrialDefectInspection LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(OpenCV REQUIRED)
+
+add_executable(inspection src/main.cpp)
+
+target_include_directories(inspection PRIVATE
+    ${OpenCV_INCLUDE_DIRS}
+)
+
+target_link_libraries(inspection PRIVATE
+    ${OpenCV_LIBS}
+)
