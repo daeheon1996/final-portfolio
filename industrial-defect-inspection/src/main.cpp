@@ -1,28 +1,68 @@
 #include <iostream>
+#include <vector>
 #include <opencv2/opencv.hpp>
 
-int main(){
-    // 1. Load Image
-    cv::Mat image = cv::imread("data/normal/test.png");
+int main() {
+    // 0. Load Image
+    cv::Mat original = cv::imread("data/metal_nut/test/scratch/000.png");
 
-    // 2. Validate Image
-    if(image.empty()) {
-        std::cerr << "Failed to load image\n";
+    if (original.empty()) {
+        std::cerr << "Image loading failed\n";
         return 1;
     }
 
-    // 3. Print Image Information
-    std::cout << "Width = " << image.cols << '\n';
-    std::cout << "Height = " << image.rows << '\n';
-    std::cout << "Channels = " << image.channels() << '\n';
+    // 1. Image Preprocessing
+    cv::Mat gray;
+    cv::Mat blurred;
 
-    // 4. Save Image
-    if(!cv::imwrite("output/result.png", image)) {
-        std::cerr << "Failed to save image\n";
-        return 1;
+    cv::cvtColor(original, gray, cv::COLOR_BGR2GRAY);
+    cv::GaussianBlur(gray, blurred, cv::Size(5, 5), 0);
+
+    // 2. Thresholding
+    cv::Mat binary;
+    cv::threshold(blurred, binary, 127, 255, cv::THRESH_BINARY);
+
+    // 3. Morphology (Opening)
+    cv::Mat opened;
+    cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+
+    cv::morphologyEx(binary, opened, cv::MORPH_OPEN, kernel);
+
+    // 4. Contour Detection
+    std::vector<std::vector<cv::Point>> contours;
+    cv::findContours(opened, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+
+    // 5. Bounding Box Visualization
+    cv::Mat result = original.clone();
+    int detected_count = 0;
+
+    for (const auto& contour : contours) {
+        double area = cv::contourArea(contour);
+
+        if (area < 100.0) {
+            continue;
+        }
+
+        cv::Rect box = cv::boundingRect(contour);
+        cv::rectangle(result, box, cv::Scalar(0, 0, 255), 2);
+
+        detected_count++;
+        std::cout << "Area: " << area << '\n';
     }
 
-    std::cout << "Image saved successfully\n";
+    // 6. Display Results
+    std::cout << "Total contours: " << contours.size() << '\n';
+    std::cout << "Filtered contours: " << detected_count << '\n';
+
+    cv::imshow("Original", original);
+    cv::imshow("Grayscale", gray);
+    cv::imshow("Gaussian Blur", blurred);
+    cv::imshow("Binary", binary);
+    cv::imshow("Opening", opened);
+    cv::imshow("Bounding Boxes", result);
+
+    cv::waitKey(0);
+    cv::destroyAllWindows();
 
     return 0;
 }
