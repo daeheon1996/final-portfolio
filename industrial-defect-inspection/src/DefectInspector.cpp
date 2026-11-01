@@ -1,0 +1,100 @@
+#include "DefectInspector.hpp"
+#include <iostream>
+#include <vector>
+#include <stdexcept>
+#include <cmath>
+#include <opencv2/imgproc.hpp>
+
+DefectInspector::DefectInspector(cv::Rect roi, double min_area, double min_aspect_ratio) : roi{roi}, min_area{min_area}, min_aspect_ratio{min_aspect_ratio}{
+    if(!std::isfinite(min_area) || !std::isfinite(min_aspect_ratio) || min_area <= 0 || min_aspect_ratio <= 0){
+        throw std::invalid_argument("Invalid inspection parameters");
+    }
+}
+
+void DefectInspector::show_config() const {
+    std::cout << "ROI = " << roi.x << ", " << roi.y << '\n';
+    std::cout << "Min Area = " << min_area << '\n';
+    std::cout << "Min Aspect Ratio = " << min_aspect_ratio << '\n';
+}
+
+void DefectInspector::set_min_area(double value) {
+    if(value <= 0){
+        std::cout << "Invalid Area\n";
+        return;
+    }
+
+    min_area = value;
+}
+
+cv::Mat DefectInspector::inspect(const cv::Mat& original) const {
+    // 1. Validate Input
+    if(original.empty()){
+        throw std::invalid_argument("Empty input image");
+    }
+
+    if(roi.width <= 0 || roi.height <= 0 || (roi & cv::Rect(0, 0, original.cols, original.rows)) != roi){
+        throw std::invalid_argument("Invalid ROI");
+    }
+
+    // 2. ROI Selection
+    cv::Mat cropped = original(roi).clone();
+
+    // 3. Image Preprocessing
+    cv::Mat gray;
+    cv::Mat blurred;
+
+    cv::cvtColor(cropped, gray, cv::COLOR_BGR2GRAY);
+    cv::GaussianBlur(gray, blurred, cv::Size(5,5), 0);
+
+    // 4. Tophat
+    cv::Mat tophat;
+    cv::Mat th_kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(15,15));
+    cv::morphologyEx(blurred, tophat, cv::MORPH_TOPHAT, th_kernel);
+
+    // 5. Thresholding
+    cv::Mat defect_binary;
+    cv::threshold(tophat, defect_binary, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
+
+    // 6. Contour Detection
+    std::vector<std::vector<cv::Point>> contours;
+    cv::findContours(defect_binary, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+
+    // 7. Bounding Box & Feature Filtering
+    cv::Mat result = original.clone();
+    int detected_count = 0;
+
+    for(const auto& contour : contours){
+        double area = cv::contourArea(contour);
+
+        if(area < min_area) {
+            continue;
+        }
+
+        cv::Rect box = cv::boundingRect(contour);
+        double aspect_ratio = static_cast<double>(box.width) / box.height;
+
+        if(aspect_ratio < min_aspect_ratio){
+            continue;
+        }
+
+        box.x += roi.x;
+        box.y += roi.y;
+
+        cv::rectangle(result, box, cv::Scalar(0, 0, 255), 2);
+        detected_count++;
+    }
+
+    // 8. OK/NG Classification
+    bool has_defect = detected_count > 0;
+    if(has_defect){
+        cv::putText(result, "NG", cv::Point(30, 50), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(0, 0, 255), 3);
+    } else {
+        cv::putText(result, "OK", cv::Point(30, 50), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(0, 255, 0), 3);
+    }
+
+    std::cout << "Total contours: " << contours.size() << '\n';
+    std::cout << "Filtered contours: " << detected_count << '\n';
+    std::cout << "Inspection Result = " << (has_defect ? "NG" : "OK") << '\n';
+
+    return result;
+}

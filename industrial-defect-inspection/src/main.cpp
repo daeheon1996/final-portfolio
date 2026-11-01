@@ -1,100 +1,76 @@
 #include <iostream>
 #include <vector>
+#include <filesystem>
+#include <algorithm>
 #include <opencv2/opencv.hpp>
+#include "DefectInspector.hpp"
+
+namespace fs = std::filesystem;
 
 int main() {
-    // 1. Load Image
-    cv::Mat original = cv::imread("data/metal_nut/test/scratch/000.png");
+    DefectInspector inspector{cv::Rect(340, 400, 180, 180), 50.0, 2.0};
 
-    if (original.empty()) {
-        std::cerr << "Image loading failed\n";
+    fs::path input_folder = "data/metal_nut/test/scratch";
+    fs::path output_folder = "output/batch";
+    
+    try {
+        if(!fs::exists(input_folder) || !fs::is_directory(input_folder)){
+            std::cerr << "Input folder not found\n";
+            return 1;
+        }  
+
+        fs::create_directories(output_folder);
+
+        // 1. Collect Image Paths
+        std::vector<fs::path> image_paths;
+
+        for(const auto& entry : fs::directory_iterator(input_folder)) {
+            if(!entry.is_regular_file()) {
+                continue;
+            }
+
+            if(entry.path().extension() == ".png"){
+                image_paths.push_back(entry.path());
+            }
+        }
+
+        // 2. Sort by Filename
+        std::sort(image_paths.begin(), image_paths.end());
+
+        // 3. Batch Inspection
+        int processed_count = 0;
+
+        for(const auto& path : image_paths){
+            std::cout << "\nProcessing: " << path.filename() << '\n';
+
+            cv::Mat original = cv::imread(path.string());
+
+            if(original.empty()) {
+                std::cerr << "Image loading failed\n";
+                continue;
+            }
+
+            try {
+                cv::Mat result = inspector.inspect(original);
+                fs::path save_path = output_folder / path.filename();
+
+                if(!cv::imwrite(save_path.string(), result)) {
+                    std::cerr << "Image saving failed: " << save_path << '\n';
+                    continue;
+                }
+
+                processed_count++;
+            } catch (const std::exception& err){
+                std::cerr << "Inspection failed: " <<  err.what() << '\n';
+            }
+        }
+
+        std::cout << "\nBatch Processing Finished\n";
+        std::cout << "Processed Images: " << processed_count << '\n';
+    }  catch(const std::exception& err){
+        std::cerr << "Error: " << err.what() << '\n';
         return 1;
     }
-
-    // 2. ROI Selection
-    cv::Rect roi(340, 400, 180, 180);
-    cv::Mat cropped = original(roi).clone();
-
-
-    // 3. Image Preprocessing
-    cv::Mat gray;
-    cv::Mat blurred;
-
-    cv::cvtColor(cropped, gray, cv::COLOR_BGR2GRAY);
-    cv::GaussianBlur(gray, blurred, cv::Size(5, 5), 0);
-    
-    
-    // 4. Tophat
-    cv::Mat tophat;
-    cv::Mat th_kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(15,15));
-    cv::morphologyEx(blurred, tophat, cv::MORPH_TOPHAT, th_kernel);
-
-    // 5. Tophat thresholding
-    cv::Mat defect_binary;
-    cv::threshold(tophat, defect_binary, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
-
-    // 6. Contour Detection
-    std::vector<std::vector<cv::Point>> contours;
-    cv::findContours(defect_binary, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-
-    // 7. Bounding Box & Feature Filtering
-    cv::Mat result = original.clone();
-    int detected_count = 0;
-
-    for (const auto& contour : contours) {
-        double area = cv::contourArea(contour);
-
-        if (area < 50.0) {
-            continue;
-        }
-
-        cv::Rect box = cv::boundingRect(contour);
-        int width = box.width;
-        int height = box.height;
-        double aspect_ratio = static_cast<double>(width) / height;
-
-        if(aspect_ratio < 2.0){
-            continue;
-        }
-    
-        // Convert ROI coordinates to original image coordinates
-        box.x += roi.x;
-        box.y += roi.y;
-
-        cv::rectangle(result, box, cv::Scalar(0, 0, 255), 2);
-        detected_count++;
-    }
-
-    // 8. OK/NG Classification
-    bool has_defect = detected_count > 0;
-    if(has_defect){
-        std::cout << "Inspection Result = NG\n";
-        cv::putText(result, "NG", cv::Point(30,50), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(0,0,255), 3);
-    } else {
-        std::cout << "Inspection Result = OK\n";
-        cv::putText(result, "OK", cv::Point(30,50), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(0,255,0), 3);
-    }
-
-    // 9. Display Results
-    std::cout << "Total contours: " << contours.size() << '\n';
-    std::cout << "Filtered contours: " << detected_count << '\n';
-
-    // cv::imshow("Original", original);
-    // cv::imshow("Grayscale", gray);
-    // cv::imshow("Gaussian Blur", blurred);
-    // cv::imshow("Binary", binary);
-    cv::imshow("Bounding Boxes", result);
-
-    // ROI
-    // cv::imshow("ROI Selection", roi_display);
-    // cv::imshow("Cropped ROI", cropped);
-
-    // tophat
-    // cv::imshow("Top hat", tophat);
-    cv::imshow("Defect Binary", defect_binary);
-
-    cv::waitKey(0);
-    cv::destroyAllWindows();
 
     return 0;
 }
