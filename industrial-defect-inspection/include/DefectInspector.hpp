@@ -1,8 +1,9 @@
+
 #pragma once
 
 #include <opencv2/core.hpp>
 
-// Inspection Result Data
+// Inspection Result
 struct InspectionResult {
     cv::Mat image;
     int defect_count{0};
@@ -12,19 +13,16 @@ struct InspectionResult {
 // Defect Inspection Pipeline
 class DefectInspector {
 private:
-    // Inspection Parameters
     cv::Rect roi;
     double min_area;
     double min_aspect_ratio;
 
 public:
-    // Constructor
-    DefectInspector(cv::Rect roi, double min_area, double min_aspect_ratio);
-
     // Configuration
+    DefectInspector(cv::Rect roi, double min_area, double min_aspect_ratio);
     void show_config() const;
     void set_min_area(double value);
 
-    // Run Inspection
+    // Inspection
     InspectionResult inspect(const cv::Mat& original) const;
 };
