@@ -38,10 +38,6 @@ InspectionResult DefectInspector::inspect(const cv::Mat& original) const {
         throw std::invalid_argument("Empty input image");
     }
 
-    if(original.type() != CV_8UC3){
-        throw std::invalid_argument("Expected 8-bit BGR image");
-    }
-
     if((roi & cv::Rect(0, 0, original.cols, original.rows)) != roi){
         throw std::invalid_argument("Invalid ROI");
     }
