@@ -10,7 +10,7 @@
 3. 검사결과 저장 및 성능 평가
 
 프로젝트 목적:
-- Machine Vision SW 개발 직무에 필요한 기본적인 결함 검사 프로그램의 동작 과정 이해
+- 기본적인 결함 검사 프로그램의 동작 과정 이해 및 실습
 
 
 ### Tech Stack
@@ -21,7 +21,6 @@
 | Computer Vision | OpenCV 4.10 |
 | Build / OS | CMake / Ubuntu Linux |
 | Dataset | MVTec AD — Metal Nut |
-
 
 <br>
 
@@ -124,8 +123,6 @@ MVTec AD Metal Nut 데이터셋의 45장의 이미지(Good 22장, Scratch 23장)
 | Precision | NG 판정 중 실제 불량의 비율 | 51.11% |
 | Recall | 실제 불량 중 NG로 판정한 비율 | 100.00% |
 | F1 Score | Precision과 Recall의 조화평균 | 67.65% |
-
-**평가 결과:** 정상 이미지 22장를 포함한 전체 이미지 45장 모두 NG로 판정되어 실제 Scratch 위치 검출에는 실패하였습니다. 따라서 Recall 100%는 실제 Scratch 위치를 정확하게 검출했다는 의미가 아니며, 정상/불량 구분 성능에도 한계가 있음을 확인했습니다.  
 
 <br>
 
