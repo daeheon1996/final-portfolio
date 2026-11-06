@@ -32,8 +32,6 @@
 | `DefectInspector.hpp` | DefectInspector class 정의 |
 | `DefectInspector.cpp` | Image Processing -> Defect Detection -> OK/NG Judgement |
 
-### Application Workflow
-
 ```text
 1. Image Loading
          ↓
