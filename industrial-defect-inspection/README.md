@@ -2,14 +2,14 @@
 
 ## 1. Project Overview
 
-### 프로젝트명: 결함 검사 시스템
+### Project Name: 결함 검사 시스템
 
-### 주요 기능:
+### Key Features:
 1. 금속 너트의 Scratch 여부를 Image Processing 기반으로 검사하고 OK/NG 판정
 2. Batch Processing을 통해 총 45장의 이미지를 자동으로 검사
 3. 검사결과 저장 및 성능 평가
 
-### 프로젝트 목적:
+### Objective:
 - 기본적인 결함 검사 프로그램의 동작 과정 이해 및 실습
 
 
