@@ -93,6 +93,7 @@ Contour Filtering
 
 MVTec AD Metal Nut 데이터셋의 45장의 이미지(Good 22장, Scratch 23장)를 대상으로 OK/NG 분류 성능을 평가했습니다.
 
+### Confusion Matrix
 | 실제 분류 / 예측 | NG | OK |
 |---|---:|---:|
 | Scratch | 23 (TP) | 0 (FN) |
