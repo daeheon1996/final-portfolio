@@ -76,8 +76,8 @@
 8. (Defect count > 0) ? NG : OK 판정
 ```
 
-- **Top-Hat:** 주변보다 밝은 구조를 강조
-- **Otsu Thresholding:** 처리된 ROI 영상의 픽셀 분포를 기준으로 binary 임계값을 자동 결정
+- **Top-Hat:** 주변보다 밝은 영역 강조
+- **Otsu Thresholding:** 이미지 밝기 분포를 기준으로 binary 임계값 자동 결정
 - **Contour Filtering:** Area와 Aspect Ratio 조건을 모두 만족하는 후보만 유지
 - **Bounding Box:** ROI 내부 좌표를 원본 이미지 좌표로 변환한 후 검출 영역을 표시  
 
