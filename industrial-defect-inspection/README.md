@@ -2,11 +2,16 @@
 
 ## 1. Project Overview
 
-C++20과 OpenCV를 활용하여 **MVTec AD Metal Nut 데이터셋의 표면 Scratch 결함을 검사하는 프로그램**입니다.
+프로젝트명: 결함 검사 시스템
 
-Image Processing 기반 결함 후보 검출부터 Batch Processing, OK/NG 판정, 검사 결과 기록 및 성능 평가까지 구현했습니다.
+주요 기능:
+1. 금속 너트의 Scratch 여부를 Image Processing 기반으로 검사하고 OK/NG 판정
+2. Batch Processing을 통해 총 45장의 이미지를 자동으로 검사
+3. 검사결과 저장 및 성능 평가
 
-본 프로젝트는 **Machine Vision 검사 프로그램의 전체 동작 과정 구현과 이해**에 중점을 두었기에, 실제 Scratch 위치 검출과 정상/불량 구분 성능에는 한계가 있습니다.
+프로젝트 목적:
+- Machine Vision SW 개발 직무에 필요한 기본적인 결함 검사 프로그램의 동작 과정 이해
+
 
 ### Tech Stack
 
@@ -22,58 +27,59 @@ Image Processing 기반 결함 후보 검출부터 Batch Processing, OK/NG 판�
 
 ## 2. System Architecture
 
-검사 실행 및 결과 관리를 담당하는 `main.cpp`와 영상처리 및 결함 검출을 담당하는 `DefectInspector` 클래스로 구성됩니다.
-
 | 구성 파일 | 주요 역할 |
 |---|---|
-| `main.cpp` | Batch Processing, 결과 저장 및 성능 평가 |
-| `DefectInspector.hpp` | 검사 클래스 및 결과 데이터 구조 정의 |
-| `DefectInspector.cpp` | Image Processing, 결함 후보 검출 및 OK/NG 판정 |
+| `main.cpp` | 검사 실행 -> 결과 저장 -> 성능 평가 |
+| `DefectInspector.hpp` | DefectInspector class 정의 |
+| `DefectInspector.cpp` | Image Processing -> Defect Detection -> OK/NG Judgement |
 
 ### Application Workflow
 
 ```text
-이미지 경로 수집 및 로드
-          ↓
-Batch Inspection 실행
-          ↓
-Image Processing 및 결함 후보 검출
-          ↓
-OK/NG 판정 및 결과 저장
-          ↓
-Confusion Matrix 및 성능 평가
+1. Image Loading
+         ↓
+2. Batch Inspection
+         ↓
+3. DefectInspector::inspect()
+   - Image Processing
+   - Defect Detection
+   - OK/NG Judgment
+         ↓
+4. Result Management
+   - Inspection Image 저장
+   - CSV Logging
+         ↓
+5. Performance Evaluation
+   - Confusion Matrix
+   - Classification Metrics
 ```
 
 ## 3. Image Processing Pipeline
 
-`DefectInspector::inspect()`에서 실행되는 영상처리 과정입니다.
-
 ```text
-Input BGR Image
+1. Input Image
        ↓
-Fixed ROI 추출
+2. Fixed ROI Extraction
        ↓
-Grayscale → Gaussian Blur
+3. Grayscale → Gaussian Blur
        ↓
-Morphological Top-Hat
+4. Morphological Top-Hat
        ↓
-Otsu Thresholding
+5. Otsu Thresholding
        ↓
-External Contour Detection
+6. Contour Detection
        ↓
-Contour Filtering
+7. Contour Filtering & Bounding Box
   • Contour Area ≥ 50
   • Bounding Box Width / Height ≥ 2.0
        ↓
-원본 이미지에 Bounding Box 표시
-       ↓
-결함 후보 수 > 0 → NG / 그 외 → OK
+8. (Defect count > 0) ? NG : OK 판정
 ```
 
-- **Top-Hat:** 주변보다 밝은 국소 구조를 강조
+- **Top-Hat:** 주변보다 밝은 구조를 강조
 - **Otsu Thresholding:** 처리된 ROI 영상의 픽셀 분포를 기준으로 이진화 임계값을 자동 결정
-- **Contour Filtering:** Area와 Aspect Ratio 조건을 모두 만족하는 후보만 유지합니다.
-- **Bounding Box:** ROI 내부 좌표를 원본 이미지 좌표로 변환한 후 검출 영역을 표시합니다.
+- **Contour Filtering:** Area와 Aspect Ratio 조건을 모두 만족하는 후보만 유지
+- **Bounding Box:** ROI 내부 좌표를 원본 이미지 좌표로 변환한 후 검출 영역을 표시
 
 
 ## 4. Inspection Results
@@ -87,6 +93,8 @@ Contour Filtering
 ### Scratch Sample
 
 ![Scratch Sample Inspection](docs/images/scratch-result.png)
+
+////////////  ### CSV log file screentshot
 
 
 ## 5. Performance Evaluation
