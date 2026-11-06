@@ -91,27 +91,28 @@ Contour Filtering
 
 ## 5. Performance Evaluation
 
-MVTec AD Metal Nut 데이터셋의 **총 45장(Good 22장, Scratch 23장)**을 대상으로 이미지 단위 OK/NG 분류 성능을 평가했습니다.
-
-### Confusion Matrix
+MVTec AD Metal Nut 데이터셋의 45장의 이미지(Good 22장, Scratch 23장)를 대상으로 OK/NG 분류 성능을 평가했습니다.
 
 | 실제 분류 / 예측 | NG | OK |
 |---|---:|---:|
 | Scratch | 23 (TP) | 0 (FN) |
 | Good | 22 (FP) | 0 (TN) |
 
+- **TP (True Positive):** 실제 불량을 불량으로 판정
+- **TN (True Negative):** 실제 정상을 정상으로 판정
+- **FP (False Positive):** 실제 정상을 불량으로 오판
+- **FN (False Negative):** 실제 불량을 정상으로 오판
+
 ### Classification Metrics
 
-| 지표 | 결과 |
-|---|---:|
-| Accuracy | 51.11% |
-| Precision | 51.11% |
-| Recall | 100.00% |
-| F1 Score | 67.65% |
+| 지표 | 설명 | 결과 |
+|---|---|---:|
+| Accuracy | 전체 이미지 중 올바르게 판정한 비율 | 51.11% |
+| Precision | NG 판정 중 실제 불량의 비율 | 51.11% |
+| Recall | 실제 불량 중 NG로 판정한 비율 | 100.00% |
+| F1 Score | Precision과 Recall의 조화평균 | 67.65% |
 
-**결과 해석:** 평가 이미지 45장 모두 NG로 판정되었습니다. 따라서 Recall 100%는 Scratch를 정확하게 구분했다는 뜻이 아닙니다. 정상 이미지 22장도 모두 NG로 잘못 판정되었으며, 실제 Scratch 위치 검출 성능과 이미지 단위 분류 지표는 구분해야 합니다.
-
-이 수치는 데이터셋에서 제공한 Test 이미지에 대한 결과이며, 별도로 확보한 독립 데이터에서의 일반화 성능을 입증하지는 않습니다.
+**평가 결과:** 정상 이미지 22장를 포함한 전체 이미지 45장 모두 NG로 판정되어 실제 Scratch 위치 검출에는 실패하였습니다. 따라서 Recall 100%는 실제 Scratch 위치를 정확하게 검출했다는 의미가 아니며, 정상/불량 구분 성능에도 한계가 있음을 확인했습니다.
 
 
 ## 6. Limitations
@@ -141,9 +142,8 @@ industrial-defect-inspection/
 
 ## 8. Build & Run
 
-**필요 환경:** C++20 지원 컴파일러, CMake, OpenCV
-
-MVTec AD Metal Nut 데이터셋을 별도로 다운로드한 후, 원래 디렉터리 구조를 유지하여 `data/metal_nut/` 아래에 배치합니다. 프로그램은 `test/good/` 및 `test/scratch/` 폴더의 PNG 파일을 읽습니다.
+MVTec AD Metal Nut 데이터셋을 다운로드 받고,  `data/metal_nut/` 폴더를 별도 생성한 후 다운받은 데이터를 이 폴더에 저장해야합니다. 
+프로그램은 `test/good/` 및 `test/scratch/` 폴더의 PNG 파일을 읽습니다.
 
 ```bash
 cmake -S . -B build
