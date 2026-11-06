@@ -24,6 +24,7 @@
 | Inspection Method | Fixed ROI 기반 Rule-based Image Processing |
 | Output | 검사 결과 이미지, CSV Log, 성능 평가 지표 |  
 
+<br>
 
 ## 2. System Architecture
 
@@ -52,7 +53,9 @@
 5. Performance Evaluation
    - Confusion Matrix
    - Classification Metrics
-```  
+```
+ 
+<br>
 
 ## 3. Image Processing Pipeline
 
@@ -81,6 +84,7 @@
 - **Contour Filtering:** Area와 Aspect Ratio 조건을 모두 만족하는 후보만 유지
 - **Bounding Box:** ROI 내부 좌표를 원본 이미지 좌표로 변환한 후 검출 영역을 표시  
 
+<br>
 
 ## 4. Inspection Results
 
@@ -96,6 +100,7 @@
 
 ////////////  ### CSV log file screentshot  
 
+<br>
 
 ## 5. Performance Evaluation
 
@@ -123,12 +128,14 @@ MVTec AD Metal Nut 데이터셋의 45장의 이미지(Good 22장, Scratch 23장)
 
 **평가 결과:** 정상 이미지 22장를 포함한 전체 이미지 45장 모두 NG로 판정되어 실제 Scratch 위치 검출에는 실패하였습니다. 따라서 Recall 100%는 실제 Scratch 위치를 정확하게 검출했다는 의미가 아니며, 정상/불량 구분 성능에도 한계가 있음을 확인했습니다.  
 
+<br>
 
 ## 6. Limitations
 - **Fixed ROI:** 이미지별 Scratch 위치가 달라 일부 결함이 검사 영역에서 제외됨
 - **False Positive:** 정상 표면 패턴을 결함 후보로 잘못 검출
 - **Rule-based Filtering:** Area 및 Aspect Ratio 기준만으로 실제 Scratch와 정상 패턴을 구분하는 데 한계  
 
+<br>
 
 ## 7. Project Structure
 
@@ -147,7 +154,9 @@ industrial-defect-inspection/
 ├── data/          #gitignore
 ├── output/        #gitignore     
 └── README.md
-```  
+```
+ 
+<br>
 
 ## 8. Build & Run
 
