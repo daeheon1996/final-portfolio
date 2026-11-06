@@ -78,7 +78,7 @@
 ```
 
 - **Top-Hat:** 주변보다 밝은 구조를 강조
-- **Otsu Thresholding:** 처리된 ROI 영상의 픽셀 분포를 기준으로 이진화 임계값을 자동 결정
+- **Otsu Thresholding:** 처리된 ROI 영상의 픽셀 분포를 기준으로 binary 임계값을 자동 결정
 - **Contour Filtering:** Area와 Aspect Ratio 조건을 모두 만족하는 후보만 유지
 - **Bounding Box:** ROI 내부 좌표를 원본 이미지 좌표로 변환한 후 검출 영역을 표시  
 
@@ -88,15 +88,18 @@
 
 검사 결과 이미지는 `output/batch/`에 저장하고, `output/inspection_log.csv`에는 `Filename`, `DefectCount`, `Judgment`를 기록합니다.
 
-### Good Sample
-
-![Good Sample Inspection](docs/images/good-result.png)
-
-### Scratch Sample
-
-![Scratch Sample Inspection](docs/images/scratch-result.png)
-
-////////////  ### CSV log file screentshot  
+<table>
+  <tr>
+    <th>Good Sample</th>
+    <th>Scratch Sample</th>
+    <th>CSV Log</th>
+  </tr>
+  <tr>
+    <td><img src="docs/images/good-result.png" width="250"></td>
+    <td><img src="docs/images/scratch-result.png" width="250"></td>
+    <td><img src="https://github.com/user-attachments/assets/1a759df5-cd86-4845-a1a5-d9abae87d04e" width="250"></td>
+  </tr>
+</table>
 
 <br>
 
