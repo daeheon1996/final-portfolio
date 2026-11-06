@@ -21,8 +21,7 @@
 | Computer Vision | OpenCV 4.10 |
 | Build / OS | CMake / Ubuntu Linux |
 | Dataset | MVTec AD — Metal Nut |
-| Inspection Method | Fixed ROI 기반 Rule-based Image Processing |
-| Output | 검사 결과 이미지, CSV Log, 성능 평가 지표 |  
+
 
 <br>
 
