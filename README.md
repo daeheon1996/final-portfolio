@@ -41,7 +41,7 @@ POSIX Threads와 TCP Socket을 활용하여 여러 클라이언트의 요청을 
 
 ---
 
-### 3. Industrial 2D Defect Inspection System | C++
+### 3. Defect Inspection | C++
 
 C++20과 OpenCV를 활용하여 산업용 부품 이미지의 표면 결함을 검사하는 Machine Vision 프로토타입 프로젝트입니다.
 
