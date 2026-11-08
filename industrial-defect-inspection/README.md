@@ -1,9 +1,6 @@
-# Industrial 2D Defect Inspection System
+# Defect Inspection
 
 ## 1. Project Overview
-
-### Project Name 
-- 결함 검사 시스템
 
 ### Key Features
 1. 금속 너트의 Scratch 여부를 Image Processing 기반으로 검사하고 OK/NG 판정
