@@ -43,7 +43,7 @@ POSIX Threads와 TCP Socket을 활용하여 여러 클라이언트의 요청을 
 
 ### 3. Defect Inspection | C++
 
-C++20과 OpenCV를 활용하여 산업용 부품 이미지의 표면 결함을 검사하는 Machine Vision 프로토타입 프로젝트입니다.
+C++20과 OpenCV를 활용하여 금속 너트 이미지의 표면 결함을 검사하는 Machine Vision 프로토타입 프로젝트입니다.
 
 MVTec AD Metal Nut 데이터셋을 활용하여 Image Processing Pipeline을 구현하고, 검사 결과의 시각화 및 정량적 성능 평가 기능을 구성했습니다.
 
