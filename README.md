@@ -45,12 +45,11 @@ POSIX Threads와 TCP Socket을 활용하여 여러 클라이언트의 요청을 
 
 C++20과 OpenCV를 활용하여 금속 너트 이미지의 표면 결함을 검사하는 Machine Vision 프로토타입 프로젝트입니다.
 
-MVTec AD Metal Nut 데이터셋을 활용하여 기본적인 결함 검사 프로그램의 동작 과정 이해 및 실습에 중점을 두었습니다.
+MVTec AD Metal Nut 데이터셋을 활용하여 기본적인 영상처리 알고리즘 동작 과정을 이해하고 실습하는데 중점을 두었습니다.
 
 **주요 구현 기능**
-- ROI 기반 Image Preprocessing
-- Gaussian Blur, Top-Hat, Otsu Thresholding을 활용한 결함 후보 검출
-- Contour 및 Feature Filtering을 통한 결함 판별
+- 고정 ROI 기반 Gaussian Blur, Top-Hat, Otsu Thresholding을 활용한 결함 후보 검출
+- Contour 검출 및 Feature Filtering 적용
 - Batch Processing 및 OK/NG 자동 판정
 - Bounding Box 시각화 및 CSV Logging
 - Confusion Matrix 기반 정량적 성능 평가
