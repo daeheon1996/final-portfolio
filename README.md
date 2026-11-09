@@ -12,10 +12,8 @@ Linux 환경에서 동작하는 간단한 Unix-like Shell 구현 프로젝트입
 **주요 구현 기능**
 - `fork()`, `execvp()`를 활용한 프로세스 생성 및 명령어 실행
 - Built-in Commands (`cd`, `pwd`, `exit`)
-- `open()`, `dup2()`를 활용한 입출력 Redirection
+- `dup2()`를 활용한 입출력 Redirection
 - `pipe()`를 활용한 단일 Pipeline
-- `waitpid()`를 활용한 자식 프로세스 관리
-- 명령어 실행 및 파일 처리 관련 Error Handling
 
 **Tech Stack:** C, Linux, GCC, Make
 
@@ -33,7 +31,6 @@ POSIX Threads와 TCP Socket을 활용하여 여러 클라이언트의 요청을 
 - HTTP Request Parsing 및 Response 처리
 - Mutex와 Condition Variable을 활용한 Thread Synchronization
 - Signal Handling을 활용한 Graceful Shutdown
-- Socket I/O 및 예외 상황에 대한 Error Handling
 
 **Tech Stack:** C, Linux, POSIX Threads, TCP/IP, GCC, Make
 
