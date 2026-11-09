@@ -49,10 +49,9 @@ MVTec AD Metal Nut 데이터셋을 활용하여 기본적인 영상처리 알고
 
 **주요 구현 기능**
 - 고정 ROI 기반 Gaussian Blur, Top-Hat, Otsu Thresholding을 활용한 결함 후보 검출
-- Contour 검출 및 Feature Filtering 적용
-- Batch Processing 및 OK/NG 자동 판정
-- Bounding Box 시각화 및 CSV Logging
-- Confusion Matrix 기반 정량적 성능 평가
+- Feature Filtering 및 Bounding Box 시각화
+- Batch Processing을 통한 전체 이미지 자동 검사 및 CSV Logging
+- Confusion Matrix, Classification Metrics 기반 성능 평가
 
 **Tech Stack:** C++20, OpenCV, CMake, Linux
 
