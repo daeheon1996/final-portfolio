@@ -51,7 +51,6 @@ MVTec AD Metal Nut 데이터셋을 활용하여 Image Processing Pipeline을 구
 - ROI 기반 Image Preprocessing
 - Gaussian Blur, Top-Hat, Otsu Thresholding을 활용한 결함 후보 검출
 - Contour 및 Feature Filtering을 통한 결함 판별
-- `DefectInspector` Class 기반 모듈화된 검사 구조
 - Batch Processing 및 OK/NG 자동 판정
 - Bounding Box 시각화 및 CSV Logging
 - Confusion Matrix 기반 정량적 성능 평가
