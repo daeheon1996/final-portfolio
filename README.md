@@ -40,7 +40,7 @@ POSIX Threads와 TCP Socket을 활용하여 여러 클라이언트의 요청을 
 
 ### 3. Defect Inspection | C++
 
-C++20과 OpenCV를 활용하여 금속 너트의 표면 결함을 검사하는 프로젝트입니다.
+C++20과 OpenCV를 활용하여 금속 너트의 표면 scratch 여부를 검사하는 프로젝트입니다.
 
 MVTec AD Metal Nut 데이터셋을 활용하여 기본적인 영상처리 알고리즘 동작 과정을 이해하고 실습하는데 중점을 두었습니다.
 
