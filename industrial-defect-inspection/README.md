@@ -26,9 +26,9 @@
 
 | 구성 파일 | 주요 역할 |
 |---|---|
-| `main.cpp` | 검사 실행 -> 결과 저장 -> 성능 평가 |
+| `main.cpp` | 일괄 검사 -> 검사 결과 저장 -> 성능 평가 |
 | `DefectInspector.hpp` | DefectInspector class 정의 |
-| `DefectInspector.cpp` | Image Processing -> Defect Detection -> OK/NG Judgement |
+| `DefectInspector.cpp` | 영상처리 -> 결함 검출 -> OK/NG 판정 |
 
 ```text
 1. Image Loading
