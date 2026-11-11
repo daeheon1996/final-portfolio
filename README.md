@@ -28,9 +28,9 @@ TCP Socket을 활용하여 여러 client의 요청을 동시에 처리하는 HTT
 **주요 구현 기능**
 - TCP Socket 기반 Client-Server 통신
 - `pthread`를 활용한 Thread-per-Client 구조
-- HTTP Request Parsing 및 Response 처리
-- Mutex와 Condition Variable을 활용한 Thread Synchronization
-- Signal Handling을 활용한 안전한 서버 종료
+- HTTP 요청 및 응답 처리
+- Mutex와 Condition Variable을 활용한 스레드 동기화
+- 종료 Signal 수신 후 안전하게 서버 종료
 
 **Tech Stack:** C, Linux, POSIX Threads, TCP/IP, GCC, Make
 
