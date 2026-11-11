@@ -27,7 +27,7 @@ TCP Socket을 활용하여 여러 client의 요청을 동시에 처리하는 HTT
 
 **주요 구현 기능**
 - thread-per-client 구조
-- HTTP 요청 및 응답 처리
+- 각 thread는 client의 HTTP 요청 및 응답 처리
 - Mutex 스레드 동기화
 - 종료 Signal 수신 후 안전하게 서버 종료
 
