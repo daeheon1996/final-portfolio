@@ -29,7 +29,7 @@ TCP Socket을 활용하여 여러 client의 요청을 동시에 처리하는 HTT
 - thread-per-client 구조
 - 각 thread는 client의 HTTP 요청 및 응답 처리
 - Mutex 스레드 동기화
-- 종료 Signal 수신 후 안전하게 서버 종료
+- 프로그램 종료 Signal 수신 후 안전하게 서버 종료
 
 **Tech Stack:** C, Linux, POSIX Threads, TCP/IP, GCC, Make
 
