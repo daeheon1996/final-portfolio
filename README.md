@@ -26,7 +26,7 @@ Linux 환경에서 동작하는 간단한 Unix-like Shell 구현 프로젝트입
 TCP Socket을 활용하여 여러 client의 요청을 동시에 처리하는 HTTP Server 구현 프로젝트입니다.
 
 **주요 구현 기능**
-- TCP Socket 기반 Client-Server 통신
+- thread-per-Client 구조
 - HTTP 요청 및 응답 처리
 - Mutex 스레드 동기화
 - 종료 Signal 수신 후 안전하게 서버 종료
