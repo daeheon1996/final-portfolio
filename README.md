@@ -30,7 +30,7 @@ POSIX Threads와 TCP Socket을 활용하여 여러 client의 request를 동시�
 - `pthread`를 활용한 Thread-per-Client 구조
 - HTTP Request Parsing 및 Response 처리
 - Mutex와 Condition Variable을 활용한 Thread Synchronization
-- Signal Handling을 활용한 Graceful Shutdown
+- Signal Handling을 활용한 안전한 서버 종료
 
 **Tech Stack:** C, Linux, POSIX Threads, TCP/IP, GCC, Make
 
