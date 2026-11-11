@@ -12,8 +12,8 @@ Linux 환경에서 동작하는 간단한 Unix-like Shell 구현 프로젝트입
 **주요 구현 기능**
 - `fork()`, `execvp()`를 활용한 프로세스 생성 및 명령어 실행
 - Built-in Commands (`cd`, `pwd`, `exit`)
-- `dup2()`를 활용한 입출력 Redirection: `<`, `>`, `>>`
-- `pipe()`를 활용한 단일 Pipeline: `|`
+- Redirection (명령어의 표준 입출력을 파일로 변경): `<`, `>`, `>>`
+- Pipe (왼쪽 명령어의 출력을 오른쪽 명령어의 입력으로 받음): `|`
 
 **Tech Stack:** C, Linux, GCC, Make
 
